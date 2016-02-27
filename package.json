@@ -1,0 +1,42 @@
+{
+  "name": "stack-compare",
+  "version": "0.1.0",
+  "description": "Comparison of the Stackoverflow tags popularity.",
+  "scripts": {
+    "deploy": "npm build && gh-pages",
+    "build": "webpack --progress --watch --config ./webpack.config.js",
+    "start": "webpack-dev-server --inline --colors --display-error-details --display-cached --port 3000 --content-base src"
+  },
+  "devDependencies": {
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "copy-webpack-plugin": "^1.1.1",
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "gh-pages": "^0.10.0",
+    "html-webpack-plugin": "^2.9.0",
+    "node-sass": "^3.4.2",
+    "raw-loader": "^0.5.1",
+    "resolve-url-loader": "^1.4.3",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
+    "ts-loader": "^0.8.1",
+    "typescript": "^1.8.2",
+    "typings": "^0.6.8",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.10",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-livereload-plugin": "^0.5.3"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-beta.7",
+    "chart.js": "^1.0.2",
+    "es6-promise": "^3.0.2",
+    "es6-shim": "^0.33.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.5.15"
+  }
+}

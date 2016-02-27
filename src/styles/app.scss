@@ -1,0 +1,28 @@
+@import "base";
+
+header code {
+  padding: 20px;
+  display: block;
+}
+
+.row-tags label {
+  margin: .5rem;
+}
+
+@media (max-width: 544px) {
+  .btn-xs-block {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (min-width: 544px) {
+  .col-sm-5 {
+    width: 47%;
+  }
+  .col-sm-2 {
+    width: 6%;
+    padding: .5rem 0;
+    line-height: 1.33333;
+  }
+}
