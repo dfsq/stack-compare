@@ -31,7 +31,12 @@ var config = {
   },
   devtool: 'source-map',
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
+    //new webpack.optimize.UglifyJsPlugin({
+    //  beautify: false,
+    //  sourceMap: false,
+    //  mangle: false,
+    //  comments: false
+    //}),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
     new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),

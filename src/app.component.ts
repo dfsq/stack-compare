@@ -13,10 +13,12 @@ import './styles/app.scss'
     <div class="container">
       <header>
         <h1 class="h4">
-          <code class="bg-inverse m-b-3"><strong>// StackCompare</strong></code>
+          <code class="bg-inverse m-b-3">
+            <a [routerLink]="['Blank']"><strong>// StackCompare</strong></a>
+          </code>
         </h1>
       </header>
-      <div class="row row-tags m-b-1">
+      <div class="row row-tags m-b-2">
         <div class="col-xs-12 col-sm-5">
           <tag-select (onSelect)="select(0, $event.value)" [value]="tags.values[0] || ''" placeholder="Tag #1"></tag-select>
         </div>
@@ -29,7 +31,7 @@ import './styles/app.scss'
       </div>
       <div class="text-xs-center m-b-2">
         <button [disabled]="tags.values.length < 2" (click)="redirect()"
-                class="btn btn-secondary btn-lg btn-xs-block">Let's go!
+                class="btn btn-secondary btn-lg btn-xs-block">Compare!
         </button>
       </div>
       <router-outlet></router-outlet>

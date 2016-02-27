@@ -4,7 +4,7 @@
   "description": "Comparison of the Stackoverflow tags popularity.",
   "scripts": {
     "deploy": "npm build && gh-pages",
-    "build": "webpack --progress --watch --config ./webpack.config.js",
+    "build": "webpack --config --optimize -p ./webpack.config.js",
     "start": "webpack-dev-server --inline --colors --display-error-details --display-cached --port 3000 --content-base src"
   },
   "devDependencies": {
@@ -35,6 +35,7 @@
     "chart.js": "^1.0.2",
     "es6-promise": "^3.0.2",
     "es6-shim": "^0.33.3",
+    "highcharts": "^4.2.3",
     "reflect-metadata": "0.1.2",
     "rxjs": "5.0.0-beta.2",
     "zone.js": "0.5.15"
