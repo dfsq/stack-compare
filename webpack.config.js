@@ -3,6 +3,24 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 var CopyWebpackPlugin  = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var prod = process.env.NODE_ENV === 'production';
+
+var plugins = [
+  new webpack.optimize.OccurenceOrderPlugin(true),
+  new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
+  new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
+  new LiveReloadPlugin({ appendScriptTag: true }),
+  new HtmlWebpackPlugin({ template: 'src/index.html' })
+];
+
+if (prod) {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({
+    beautify: false,
+    sourceMap: false,
+    mangle: false,
+    comments: false
+  }));
+}
 
 var config = {
   entry: {
@@ -30,19 +48,7 @@ var config = {
     ]
   },
   devtool: 'source-map',
-  plugins: [
-    //new webpack.optimize.UglifyJsPlugin({
-    //  beautify: false,
-    //  sourceMap: false,
-    //  mangle: false,
-    //  comments: false
-    //}),
-    new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
-    new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
-    new LiveReloadPlugin({ appendScriptTag: true }),
-    new HtmlWebpackPlugin({ template: 'src/index.html' })
-  ],
+  plugins: plugins,
   devServer: {
     historyApiFallback: true
   }
