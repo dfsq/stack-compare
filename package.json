@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "description": "Comparison of the Stackoverflow tags popularity.",
   "scripts": {
-    "deploy": "./deploy.sh",
+    "publish": "node publish.js",
     "build": "NODE_ENV=production webpack --config ./webpack.config.js",
     "start": "webpack-dev-server --inline --colors --display-error-details --display-cached --port 3000 --content-base src"
   },
   "repository": {
-    "type" : "git",
-    "url" : "git@github.com:dfsq/stack-compare.git"
+    "type": "git",
+    "url": "git@github.com:dfsq/stack-compare.git"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
