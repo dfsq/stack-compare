@@ -25,7 +25,17 @@ export class TagsService {
         return Observable.forkJoin(
             this.loadTotal(tags.join(';')),
             this.loadUnanswered(tags),
-            (total, unanswered) => ({total, unanswered})
+            function(total, unanswered) {
+              var answered = Object.keys(total).reduce((prev, key) => {
+                prev[key] = total[key] - unanswered[key]
+                return prev
+              }, {})
+              return {
+                total,
+                answered,
+                unanswered
+              }
+            }
         )
     }
 

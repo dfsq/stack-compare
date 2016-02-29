@@ -9,7 +9,7 @@ var Highcharts = require('highcharts');
   styles: [`
     :host {display: block}
     .loading + .data-container {display: none}
-    h6 {text-decoration: underline}
+    h6 {text-decoration: underline; color: #818a91}
    `],
   template: `
     <pre class="loading" *ngIf="loading">Loading..</pre>
@@ -28,12 +28,16 @@ var Highcharts = require('highcharts');
             <div><strong>{{ tag1 }}</strong>: {{ data.total[tag1] }}</div>
             <div><strong>{{ tag2 }}</strong>: {{ data.total[tag2] }}</div>
           </div>
+          <div class="m-b-1">
+            <h6>Answered</h6>
+            <div><strong>{{ tag1 }}</strong>: {{ data.answered[tag1] }}</div>
+            <div><strong>{{ tag2 }}</strong>: {{ data.answered[tag2] }}</div>
+          </div>
           <div>
             <h6>Unanswered</h6>
             <div><strong>{{ tag1 }}</strong>: {{ data.unanswered[tag1] }}</div>
             <div><strong>{{ tag2 }}</strong>: {{ data.unanswered[tag2] }}</div>
           </div>
-          <pre>{{ data | json }}</pre>
         </div>
       </div>
     </div>
@@ -114,9 +118,13 @@ export class ChartComponent {
           data: [this.data.total[this.tag1], this.data.total[this.tag2]],
           color: '#7CB5EC'
         }, {
+          name: 'Answered',
+          data: [this.data.answered[this.tag1], this.data.answered[this.tag2]],
+          color: '#51AD38'
+        }, {
           name: 'Unanswered',
           data: [this.data.unanswered[this.tag1], this.data.unanswered[this.tag2]],
-          color: '#f36e65'
+          color: '#F78B87'
         }]
       });
     }, 100)
