@@ -4,11 +4,39 @@
   <meta charset="UTF-8">
   <title>StackCompare</title>
   <base href="/">
+  <style>
+    .loading {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background: #333;
+      z-index: -1;
+    }
+    .loading:before {
+      content: attr(data-message);
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      text-align: center;
+      width: 100%;
+      color: #EEE;
+      font-size: 30px;
+    }
+    app-root:empty + .loading {
+      opacity: 1;
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
 
   <div class="container">
-    <app-root>Loading...</app-root>
+    <app-root></app-root>
+    <div class="loading" data-message="Loading..."></div>
   </div>
 
 </body>
