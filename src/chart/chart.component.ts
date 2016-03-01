@@ -1,4 +1,5 @@
 import {Component, Injector, ElementRef} from 'angular2/core'
+import {Title} from 'angular2/platform/browser'
 import {RouteParams} from 'angular2/router'
 import {TagsService} from '../tags/tags.service'
 
@@ -10,7 +11,7 @@ var Highcharts = require('highcharts');
     :host {display: block}
     .loading + .data-container {display: none}
     h6 {text-decoration: underline; color: #818a91}
-   `],
+  `],
   template: `
     <pre class="loading" *ngIf="loading">Loading..</pre>
     <div class="alert alert-danger" role="alert" *ngIf="error">
@@ -41,7 +42,8 @@ var Highcharts = require('highcharts');
         </div>
       </div>
     </div>
-  `
+  `,
+  providers: [Title]
 })
 export class ChartComponent {
 
@@ -51,7 +53,7 @@ export class ChartComponent {
   data:any
   error:string
 
-  constructor(private el:ElementRef, private tags:TagsService, injector:Injector) {
+  constructor(private el: ElementRef, private tags: TagsService, private title: Title, injector: Injector) {
     var routeParams = injector.parent.get(RouteParams)
     this.tag1 = routeParams.get('tag1')
     this.tag2 = routeParams.get('tag2')
@@ -59,8 +61,7 @@ export class ChartComponent {
 
   ngOnInit() {
 
-    // Better way to set title?
-    document.title = `${this.tag1} vs ${this.tag2} | StackCompare`
+    this.title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
 
     var canvas = this.el.nativeElement.querySelector('.canvas')
 
@@ -81,8 +82,6 @@ export class ChartComponent {
 
     setTimeout(() => {
       new Highcharts.Chart({
-        exporting: true,
-
         chart: {
           renderTo: canvas,
           type: 'column'

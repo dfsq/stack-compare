@@ -2,7 +2,7 @@
 
 Comparison of the Stackoverflow tags popularity.
 
-Here is an example of the statistics:
+Here is an example of the statistics: Angular 2 vs Aurelia
 
 ![angular2-vs-aurelia](http://dfsq.info/files/angular2-vs-aurelia-stats.png)
 
