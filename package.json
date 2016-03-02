@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Comparison of the Stackoverflow tags popularity.",
   "scripts": {
-    "publish": "node publish.js",
+    "publish": "npm run build && node publish.js",
     "build": "NODE_ENV=production webpack --config ./webpack.config.js",
     "start": "webpack-dev-server --inline --colors --display-error-details --display-cached --port 3000 --content-base src"
   },
