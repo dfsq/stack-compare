@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "has_synonyms": true,
+      "is_moderator_only": false,
+      "is_required": false,
+      "count": 157925,
+      "name": "angularjs"
+    },
+    {
+      "has_synonyms": true,
+      "is_moderator_only": false,
+      "is_required": false,
+      "count": 11644,
+      "name": "reactjs"
+    }
+  ],
+  "has_more": false,
+  "quota_max": 300,
+  "quota_remaining": 276
+}

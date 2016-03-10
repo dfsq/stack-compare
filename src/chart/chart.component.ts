@@ -2,6 +2,7 @@ import {Component, Injector, ElementRef} from 'angular2/core'
 import {Title} from 'angular2/platform/browser'
 import {RouteParams} from 'angular2/router'
 import {TagsService} from '../tags/tags.service'
+import {Storage} from '../common/storage'
 
 var Highcharts = require('highcharts');
 
@@ -26,8 +27,20 @@ var Highcharts = require('highcharts');
         <div *ngIf="data">
           <div class="m-b-1">
             <h6>Total</h6>
-            <div><strong>{{ tag1 }}</strong>: {{ data.total[tag1] }}</div>
-            <div><strong>{{ tag2 }}</strong>: {{ data.total[tag2] }}</div>
+            <div>
+              <strong>{{ tag1 }}</strong>: {{ data.total[tag1] | number }}
+              <div *ngIf="data.delta[tag1] && data.delta[tag1].number">
+                <strong>&#43;{{ data.delta[tag1].number }}</strong>
+                <small>since {{ data.delta[tag1].prevDate | date:'medium' }}</small>
+              </div>
+            </div>
+            <div>
+              <strong>{{ tag2 }}</strong>: {{ data.total[tag2] | number }}
+              <div *ngIf="data.delta[tag2] && data.delta[tag1].number">
+                <strong>&#43;{{ data.delta[tag2].number }}</strong>
+                <small>since {{ data.delta[tag2].prevDate | date:'medium' }}</small>
+              </div>
+            </div>
           </div>
           <div class="m-b-1">
             <h6>Answered</h6>
@@ -53,7 +66,7 @@ export class ChartComponent {
   data:any
   error:string
 
-  constructor(private el: ElementRef, private tags: TagsService, private title: Title, injector: Injector) {
+  constructor(private el: ElementRef, private tags: TagsService, private title: Title, private storage: Storage, injector: Injector) {
     var routeParams = injector.parent.get(RouteParams)
     this.tag1 = routeParams.get('tag1')
     this.tag2 = routeParams.get('tag2')

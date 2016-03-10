@@ -4,6 +4,7 @@ import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2
 import {HTTP_PROVIDERS} from 'angular2/http'
 import {AppComponent} from './app.component';
 import {TagsService} from './tags/tags.service'
+import {Storage} from './common/storage'
 
 enableProdMode()
 
@@ -11,6 +12,7 @@ bootstrap(AppComponent, [
   HTTP_PROVIDERS,
   ROUTER_PROVIDERS,
   provide(LocationStrategy, {useClass: HashLocationStrategy}),
-  TagsService
+  TagsService,
+  Storage
 ])
 .catch(error => console.log(error))
