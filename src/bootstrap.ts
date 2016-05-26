@@ -1,7 +1,8 @@
-import {bootstrap} from 'angular2/platform/browser';
-import {provide, enableProdMode} from 'angular2/core'
-import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router'
-import {HTTP_PROVIDERS} from 'angular2/http'
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {provide, enableProdMode} from '@angular/core'
+import {ROUTER_PROVIDERS} from '@angular/router-deprecated'
+import {LocationStrategy, HashLocationStrategy} from '@angular/common'
+import {HTTP_PROVIDERS} from '@angular/http'
 import {AppComponent} from './app.component';
 import {TagsService} from './tags/tags.service'
 import {Storage} from './common/storage'

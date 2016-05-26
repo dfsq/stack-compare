@@ -1,10 +1,10 @@
-import {Component, Injector, ElementRef} from 'angular2/core'
-import {Title} from 'angular2/platform/browser'
-import {RouteParams} from 'angular2/router'
+import {Component, Injector, ElementRef} from '@angular/core'
+import {Title} from '@angular/platform-browser'
+import {RouteParams, Router} from '@angular/router-deprecated'
 import {TagsService} from '../tags/tags.service'
 import {Storage} from '../common/storage'
 
-var Highcharts = require('highcharts');
+var Highcharts = require('highcharts')
 
 @Component({
   selector: 'chart',
@@ -66,10 +66,11 @@ export class ChartComponent {
   data:any
   error:string
 
-  constructor(private el: ElementRef, private tags: TagsService, private title: Title, private storage: Storage, injector: Injector) {
-    var routeParams = injector.parent.get(RouteParams)
-    this.tag1 = routeParams.get('tag1')
-    this.tag2 = routeParams.get('tag2')
+  constructor(private el: ElementRef, private tags: TagsService, private title: Title, private storage: Storage, private router: Router) {
+    var instruction = router.root.currentInstruction
+    var routeParams = instruction.component.params
+    this.tag1 = routeParams['tag1']
+    this.tag2 = routeParams['tag2']
   }
 
   ngOnInit() {
@@ -144,12 +145,3 @@ export class ChartComponent {
   }
 
 }
-
-
-
-
-
-
-
-
-

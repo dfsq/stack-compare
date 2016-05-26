@@ -1,10 +1,10 @@
-import {Component, ElementRef, Input, Output, EventEmitter} from 'angular2/core'
-import {TagsService} from './tags.service'
+import {Component, ElementRef, Input, Output, EventEmitter} from '@angular/core'
+import {Response} from "@angular/http"
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/observable/fromEvent'
 import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/switchMap'
-import {Response} from "angular2/http";
+import {TagsService} from './tags.service'
 
 @Component({
   selector: 'tag-select',
@@ -16,7 +16,7 @@ import {Response} from "angular2/http";
     <div class="list-group dropdown-list">
       <button type="button" class="list-group-item"
         (click)="select(item.name)"
-        *ngFor="#item of items">{{ item.name }}</button>
+        *ngFor="let item of items">{{ item.name }}</button>
     </div>
   `,
   styles: [`
