@@ -60,11 +60,11 @@ var Highcharts = require('highcharts')
 })
 export class ChartComponent {
 
-  loading:boolean = true
-  tag1:string
-  tag2:string
-  data:any
-  error:string
+  loading: boolean = true
+  tag1: string
+  tag2: string
+  data: any
+  error: string
 
   constructor(private el: ElementRef, private tags: TagsService, private title: Title, private storage: Storage, private router: Router) {
     var instruction = router.root.currentInstruction

@@ -54,9 +54,6 @@ export class AppComponent {
     if (path) {
       tags.values = path.split('/').slice(1)
     }
-    else {
-      // tags.values = ['angular2', 'aurelia']
-    }
   }
 
   redirect() {

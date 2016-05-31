@@ -41,13 +41,13 @@ export class TagSelect {
   @Input() placeholder
   @Output() onSelect = new EventEmitter()
 
-  items:Array<any>
+  items: Array<any>
   error: string
 
-  constructor(private el:ElementRef, private tags:TagsService) {}
+  constructor(private el: ElementRef, private tags: TagsService) {}
 
   ngOnInit() {
-    var inputEl:HTMLInputElement = this.el.nativeElement.querySelector('.input')
+    var inputEl: HTMLInputElement = this.el.nativeElement.querySelector('.input')
     Observable.fromEvent(inputEl, 'input')
       .debounceTime(400)
       .switchMap(event => this.tags.findTags(inputEl.value))

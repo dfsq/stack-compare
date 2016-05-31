@@ -23,7 +23,6 @@ export class TagsService {
 
   loadStats(...tags) {
 
-
     return Observable.forkJoin(
       this.loadTotal(tags.join(';')),
       this.loadUnanswered(tags),
@@ -74,7 +73,7 @@ export class TagsService {
     return Observable.forkJoin(
       ...tags.map(tag => this.http.get(`${this.apiBase}/questions/no-answers?&tagged=${tag}&site=stackoverflow&filter=total`)),
       function (...totals) {
-        return tags.reduce(function (prev, curr, i) {
+        return tags.reduce(function(prev, curr, i) {
           var obj = totals[i].json()
           prev[tags[i]] = obj.total
           return prev
