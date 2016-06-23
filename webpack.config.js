@@ -10,7 +10,8 @@ var plugins = [
   new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
   new CopyWebpackPlugin([
     { from: 'src/assets', to: 'assets' },
-    { from: 'README.md', to: './'}
+    { from: 'README.md', to: './'},
+    { from: 'src/favicon.ico', to: './' }
   ]),
   new LiveReloadPlugin({ appendScriptTag: true }),
   new HtmlWebpackPlugin({ template: 'src/index.html' })
