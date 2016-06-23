@@ -1,6 +1,10 @@
 import {Component} from '@angular/core'
 import {Location} from '@angular/common'
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated'
+import { Store } from '@ngrx/store'
+import { Observable } from "rxjs/Observable"
+import 'rxjs/add/operator/filter'
+import { ITag, SET_TAGS } from './reducers/tags'
 import {TagsService} from './tags/tags.service'
 import {TagSelect} from './tags/tag-select.component'
 import {BlankComponent} from './blank.component'
@@ -24,17 +28,17 @@ import './styles/app.scss'
       </header>
       <div class="row row-tags m-b-2">
         <div class="col-xs-12 col-sm-5">
-          <tag-select (onSelect)="select(0, $event.value)" [value]="tags.values[0] || ''" placeholder="Tag #1"></tag-select>
+          <tag-select (onSelect)="select(0, $event.value)" [value]="tags[0]?.name || ''" placeholder="Tag #1"></tag-select>
         </div>
         <div class="col-xs-12 col-sm-2 text-xs-center">
           <label>VS</label>
         </div>
         <div class="col-xs-12 col-sm-5">
-          <tag-select (onSelect)="select(1, $event.value)" [value]="tags.values[1] || ''" placeholder="Tag #2"></tag-select>
+          <tag-select (onSelect)="select(1, $event.value)" [value]="tags[1]?.name || ''" placeholder="Tag #2"></tag-select>
         </div>
       </div>
       <div class="text-xs-center m-b-2">
-        <button [disabled]="tags.values.length < 2" (click)="redirect()"
+        <button [disabled]="tags?.length < 2" (click)="redirect()"
                 class="btn btn-secondary btn-lg btn-xs-block">Compare!
         </button>
       </div>
@@ -49,18 +53,34 @@ import './styles/app.scss'
 ])
 export class AppComponent {
 
-  constructor(private tags:TagsService, private router:Router, location:Location) {
-    var path = location.path()
-    if (path) {
-      tags.values = path.split('/').slice(1)
-    }
+  tags: Array<ITag> = []
+
+  constructor(
+    private _tagsService: TagsService,
+    private _router: Router,
+    private _location: Location,
+    private _store: Store<any>
+  ) {
+
+    _store.select<ITag[]>('tags')
+      .filter(tags => tags.length === 2)
+      .subscribe(tags => this.tags = tags)
   }
 
   redirect() {
-    this.router.navigate(['./Chart', {tag1: this.tags.values[0], tag2: this.tags.values[1]}])
+    this._router.navigate(['./Chart', {
+      tag1: this.tags[0].name,
+      tag2: this.tags[1].name
+    }])
   }
 
-  select(index, value) {
-    this.tags.add(index, value)
+  select(index, name) {
+    this._store.dispatch({
+      type: 'ADD_TAG',
+      payload: {
+        index,
+        name
+      }
+    })
   }
 }

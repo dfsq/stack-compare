@@ -51,7 +51,7 @@ export class TagSelect {
     Observable.fromEvent(inputEl, 'input')
       .debounceTime(400)
       .switchMap(event => this.tags.findTags(inputEl.value))
-      .map(res=> (<Response>res).json())
+      .map(res => (<Response>res).json())
       .subscribe(
         response => this.items = response.items,
         response => this.error = response.json()

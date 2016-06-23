@@ -1,10 +1,12 @@
-import {Component, Injector, ElementRef} from '@angular/core'
-import {Title} from '@angular/platform-browser'
-import {RouteParams, Router} from '@angular/router-deprecated'
-import {TagsService} from '../tags/tags.service'
-import {Storage} from '../common/storage'
-
-var Highcharts = require('highcharts')
+import { Component, Injector, ElementRef } from '@angular/core'
+import { Title } from '@angular/platform-browser'
+import { RouteParams, Router } from '@angular/router-deprecated'
+import { Store } from '@ngrx/store'
+import { ITag, SET_TAGS, SET_DATA } from '../reducers/tags'
+import { TagsService } from '../tags/tags.service'
+import { Observable } from 'rxjs/Observable'
+import { ChartData } from './chart-data.component'
+import 'rxjs/add/operator/take'
 
 @Component({
   selector: 'chart',
@@ -19,12 +21,12 @@ var Highcharts = require('highcharts')
       <strong>Oops!</strong> Something went wrong, could not load data.
       <div *ngIf="error.error_message"><strong>Error</strong>: {{ error.error_message }}</div>
     </div>
-    <div class="row data-container">
+    <div class="row data-container" *ngIf="data">
       <div class="col-md-8">
-        <div class="canvas"></div>
+        <chart-data [data]="data"></chart-data>
       </div>
       <div class="col-md-4">
-        <div *ngIf="data">
+        <div>
           <div class="m-b-1">
             <h6>Total</h6>
             <div>
@@ -56,92 +58,54 @@ var Highcharts = require('highcharts')
       </div>
     </div>
   `,
-  providers: [Title]
+  providers: [ Title ],
+  directives: [ ChartData ]
 })
 export class ChartComponent {
 
   loading: boolean = true
   tag1: string
   tag2: string
-  data: any
+  data: Object
   error: string
 
-  constructor(private el: ElementRef, private tags: TagsService, private title: Title, private storage: Storage, private router: Router) {
+  constructor(
+    private tags: TagsService,
+    private title: Title,
+    private router: Router,
+    private _store: Store<any>
+  ) {
+
     var instruction = router.root.currentInstruction
     var routeParams = instruction.component.params
     this.tag1 = routeParams['tag1']
     this.tag2 = routeParams['tag2']
-  }
-
-  ngOnInit() {
 
     this.title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
 
-    var canvas = this.el.nativeElement.querySelector('.canvas')
-
-    this.tags.loadStats(this.tag1, this.tag2).subscribe(
-      data => {
+    this._store.select('data')
+      .subscribe(data => {
         this.data = data
-        this.loading = false
-        this.renderChart(canvas)
-      },
-      response => {
-        this.error = response.json()
-        this.loading = false
-      }
-    )
+      })
+
+    this._store.dispatch({
+      type: SET_TAGS,
+      payload: [this.tag1, this.tag2]
+    })
+
+    this.tags.loadStats(this.tag1, this.tag2)
+      .subscribe(
+        data => {
+          this.loading = false
+          this._store.dispatch({
+            type: SET_DATA,
+            payload: data
+          })
+        },
+        response => {
+          this.error = response.json()
+          this.loading = false
+        }
+      )
   }
-
-  renderChart(canvas) {
-
-    setTimeout(() => {
-      new Highcharts.Chart({
-        chart: {
-          renderTo: canvas,
-          type: 'column'
-        },
-
-        title: {text: `${this.tag1} vs ${this.tag2}`},
-
-        xAxis: {
-          categories: [this.tag1, this.tag2]
-        },
-
-        yAxis: {
-          allowDecimals: false,
-          min: 0,
-          title: {
-            text: 'Number of questions'
-          }
-        },
-
-        /**
-         * @property x
-         * @property y
-         * @property series.name
-         */
-        tooltip: {
-          formatter: function () {
-            return `<b>${this.x}</b><br>${this.series.name}: ${this.y}`
-          }
-        },
-
-        series: [{
-          name: 'Total',
-          data: [this.data.total[this.tag1], this.data.total[this.tag2]],
-          color: '#7CB5EC'
-        }, {
-          name: 'Answered',
-          data: [this.data.answered[this.tag1], this.data.answered[this.tag2]],
-          color: '#51AD38'
-        }, {
-          name: 'Unanswered',
-          data: [this.data.unanswered[this.tag1], this.data.unanswered[this.tag2]],
-          color: '#F78B87'
-        }]
-      });
-    }, 100)
-
-  }
-
 }

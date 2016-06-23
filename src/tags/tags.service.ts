@@ -52,7 +52,8 @@ export class TagsService {
           total,
           answered,
           unanswered,
-          delta
+          delta,
+          tags
         }
       }
     )
