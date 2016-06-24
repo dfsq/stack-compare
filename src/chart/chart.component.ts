@@ -1,6 +1,6 @@
-import { Component, Injector, ElementRef } from '@angular/core'
+import { Component, Injector, ElementRef, OnInit } from '@angular/core'
 import { Title } from '@angular/platform-browser'
-import { RouteParams, Router } from '@angular/router-deprecated'
+import { ActivatedRoute } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { ITag, SET_TAGS, SET_DATA } from '../reducers/tags'
 import { TagsData } from '../common/tags-data.service.ts'
@@ -62,7 +62,7 @@ import 'rxjs/add/operator/finally'
   providers: [ Title ],
   directives: [ ChartData ]
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit {
 
   loading: boolean = true
   tag1: string
@@ -73,14 +73,22 @@ export class ChartComponent {
   constructor(
     private _tagsData: TagsData,
     private _title: Title,
-    private _router: Router,
+    private _router: ActivatedRoute,
     private _store: Store<any>
-  ) {
+  ) {}
 
-    var instruction = _router.root.currentInstruction
-    var routeParams = instruction.component.params
-    this.tag1 = routeParams['tag1']
-    this.tag2 = routeParams['tag2']
+  ngOnInit() {
+
+    this._router.params
+      .subscribe(params => {
+        this.tag1 = params['tag1']
+        this.tag2 = params['tag2']
+
+        this._store.dispatch({
+          type: SET_TAGS,
+          payload: [ this.tag1, this.tag2 ]
+        })
+      })
 
     this._title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
 
@@ -88,11 +96,6 @@ export class ChartComponent {
       .subscribe(data => {
         this.data = data
       })
-
-    this._store.dispatch({
-      type: SET_TAGS,
-      payload: [ this.tag1, this.tag2 ]
-    })
 
     this._tagsData.loadStats(this.tag1, this.tag2)
       .finally(() => this.loading = false)
