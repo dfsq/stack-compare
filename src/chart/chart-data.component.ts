@@ -22,6 +22,9 @@ export class ChartData implements OnInit {
 
   renderChart(canvas) {
 
+    const tag1 = this.data.tags[0]
+    const tag2 = this.data.tags[1]
+
     setTimeout(() => {
       new Highcharts.Chart({
         chart: {
@@ -29,10 +32,10 @@ export class ChartData implements OnInit {
           type: 'column'
         },
 
-        title: {text: `${this.data.tags[0]} vs ${this.data.tags[1]}`},
+        title: { text: `${tag1} vs ${tag2}` },
 
         xAxis: {
-          categories: [this.data.tags[0], this.data.tags[1]]
+          categories: [ tag1, tag2 ]
         },
 
         yAxis: {
@@ -56,18 +59,18 @@ export class ChartData implements OnInit {
 
         series: [{
           name: 'Total',
-          data: [this.data.total[this.data.tags[0]], this.data.total[this.data.tags[1]]],
+          data: [ this.data.total[tag1], this.data.total[tag2] ],
           color: '#7CB5EC'
         }, {
           name: 'Answered',
-          data: [this.data.answered[this.data.tags[0]], this.data.answered[this.data.tags[1]]],
+          data: [ this.data.answered[tag1], this.data.answered[tag2] ],
           color: '#51AD38'
         }, {
           name: 'Unanswered',
-          data: [this.data.unanswered[this.data.tags[0]], this.data.unanswered[this.data.tags[1]]],
+          data: [ this.data.unanswered[tag1], this.data.unanswered[tag2] ],
           color: '#F78B87'
         }]
-      });
+      })
     }, 100)
   }
 }

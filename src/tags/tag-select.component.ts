@@ -1,10 +1,10 @@
-import {Component, ElementRef, Input, Output, EventEmitter} from '@angular/core'
-import {Response} from "@angular/http"
-import {Observable} from 'rxjs/Observable'
+import { Component, ElementRef, Input, Output, EventEmitter } from '@angular/core'
+import { Response } from "@angular/http"
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/fromEvent'
 import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/switchMap'
-import {TagsService} from './tags.service'
+import { TagsData } from '../common/tags-data.service.ts'
 
 @Component({
   selector: 'tag-select',
@@ -44,7 +44,7 @@ export class TagSelect {
   items: Array<any>
   error: string
 
-  constructor(private el: ElementRef, private tags: TagsService) {}
+  constructor(private el: ElementRef, private tags: TagsData) {}
 
   ngOnInit() {
     var inputEl: HTMLInputElement = this.el.nativeElement.querySelector('.input')
@@ -61,7 +61,6 @@ export class TagSelect {
   select(value) {
     this.value = value
     this.items = null
-    this.onSelect.emit({value: value})
+    this.onSelect.emit({ value })
   }
-
 }

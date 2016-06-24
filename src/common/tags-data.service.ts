@@ -1,19 +1,18 @@
-import {Injectable} from '@angular/core'
-import {Http} from '@angular/http'
-import {Observable} from 'rxjs/Observable'
-import 'rxjs/add/operator/delay'
+import { Injectable } from '@angular/core'
+import { Http } from '@angular/http'
+import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/forkJoin'
-import {Storage} from '../common/storage'
+import { Storage } from '../common/storage'
 
 @Injectable()
-export class TagsService {
+export class TagsData {
 
   values: Array<string> = []
   apiBase = 'http://api.stackexchange.com/2.2'
   //apiBase = '/data.json?'
 
-  constructor(private http: Http, private storage: Storage) {}
+  constructor(private _http: Http, private _storage: Storage) {}
 
   add(index, value) {
     if (this.values.indexOf(value) === -1) {
@@ -36,7 +35,7 @@ export class TagsService {
         }, {})
 
         var delta = keys.reduce((prev, key) => {
-          var cached = this.storage.get(key)
+          var cached = this._storage.get(key)
           prev[key] = cached && cached.total ? total[key] - cached.total : undefined
           if (cached && cached.total) {
             prev[key] = {
@@ -44,7 +43,7 @@ export class TagsService {
               prevDate: cached.date
             }
           }
-          this.storage.set(key, {total: total[key], date: Date.now()})
+          this._storage.set(key, {total: total[key], date: Date.now()})
           return prev
         }, {})
 
@@ -60,7 +59,7 @@ export class TagsService {
   }
 
   loadTotal(tags) {
-    return this.http.get(`${this.apiBase}/tags/${tags}/info?site=stackoverflow`)
+    return this._http.get(`${this.apiBase}/tags/${tags}/info?site=stackoverflow`)
       .map(response => response.json())
       .map(data => {
         return data.items.reduce(function (prev, curr) {
@@ -72,7 +71,7 @@ export class TagsService {
 
   loadUnanswered(tags) {
     return Observable.forkJoin(
-      ...tags.map(tag => this.http.get(`${this.apiBase}/questions/no-answers?&tagged=${tag}&site=stackoverflow&filter=total`)),
+      ...tags.map(tag => this._http.get(`${this.apiBase}/questions/no-answers?&tagged=${tag}&site=stackoverflow&filter=total`)),
       function (...totals) {
         return tags.reduce(function(prev, curr, i) {
           var obj = totals[i].json()
@@ -84,6 +83,6 @@ export class TagsService {
   }
 
   findTags(query) {
-    return this.http.get(`${this.apiBase}/tags?inname=${query}&order=desc&sort=popular&site=stackoverflow`)
+    return this._http.get(`${this.apiBase}/tags?inname=${query}&order=desc&sort=popular&site=stackoverflow`)
   }
 }

@@ -1,14 +1,12 @@
-import {Component} from '@angular/core'
-import {Location} from '@angular/common'
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated'
+import { Component } from '@angular/core'
+import { RouteConfig, Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated'
 import { Store } from '@ngrx/store'
-import { Observable } from "rxjs/Observable"
-import 'rxjs/add/operator/filter'
 import { ITag, SET_TAGS } from './reducers/tags'
-import {TagsService} from './tags/tags.service'
-import {TagSelect} from './tags/tag-select.component'
-import {BlankComponent} from './blank.component'
-import {ChartComponent} from './chart/chart.component'
+import { TagsData } from './common/tags-data.service.ts'
+import { TagSelect } from './tags/tag-select.component'
+import { BlankComponent } from './blank.component'
+import { ChartComponent } from './chart/chart.component'
+import 'rxjs/add/operator/filter'
 
 import './styles/app.scss'
 
@@ -45,20 +43,18 @@ import './styles/app.scss'
       <router-outlet></router-outlet>
     </div>
   `,
-  directives: [TagSelect, ROUTER_DIRECTIVES]
+  directives: [ TagSelect, ROUTER_DIRECTIVES ]
 })
 @RouteConfig([
-  {path: '/', name: 'Blank', component: BlankComponent},
-  {path: '/:tag1/:tag2', name: 'Chart', component: ChartComponent}
+  { path: '/', name: 'Blank', component: BlankComponent },
+  { path: '/:tag1/:tag2', name: 'Chart', component: ChartComponent }
 ])
 export class AppComponent {
 
   tags: Array<ITag> = []
 
   constructor(
-    private _tagsService: TagsService,
     private _router: Router,
-    private _location: Location,
     private _store: Store<any>
   ) {
 

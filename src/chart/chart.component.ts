@@ -3,10 +3,11 @@ import { Title } from '@angular/platform-browser'
 import { RouteParams, Router } from '@angular/router-deprecated'
 import { Store } from '@ngrx/store'
 import { ITag, SET_TAGS, SET_DATA } from '../reducers/tags'
-import { TagsService } from '../tags/tags.service'
-import { Observable } from 'rxjs/Observable'
+import { TagsData } from '../common/tags-data.service.ts'
 import { ChartData } from './chart-data.component'
-import 'rxjs/add/operator/take'
+
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/operator/finally'
 
 @Component({
   selector: 'chart',
@@ -70,18 +71,18 @@ export class ChartComponent {
   error: string
 
   constructor(
-    private tags: TagsService,
-    private title: Title,
-    private router: Router,
+    private _tagsData: TagsData,
+    private _title: Title,
+    private _router: Router,
     private _store: Store<any>
   ) {
 
-    var instruction = router.root.currentInstruction
+    var instruction = _router.root.currentInstruction
     var routeParams = instruction.component.params
     this.tag1 = routeParams['tag1']
     this.tag2 = routeParams['tag2']
 
-    this.title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
+    this._title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
 
     this._store.select('data')
       .subscribe(data => {
@@ -90,22 +91,17 @@ export class ChartComponent {
 
     this._store.dispatch({
       type: SET_TAGS,
-      payload: [this.tag1, this.tag2]
+      payload: [ this.tag1, this.tag2 ]
     })
 
-    this.tags.loadStats(this.tag1, this.tag2)
+    this._tagsData.loadStats(this.tag1, this.tag2)
+      .finally(() => this.loading = false)
       .subscribe(
-        data => {
-          this.loading = false
-          this._store.dispatch({
-            type: SET_DATA,
-            payload: data
-          })
-        },
-        response => {
-          this.error = response.json()
-          this.loading = false
-        }
+        data => this._store.dispatch({
+          type: SET_DATA,
+          payload: data
+        }),
+        response => this.error = response.json()
       )
   }
 }
