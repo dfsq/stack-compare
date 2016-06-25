@@ -79,16 +79,14 @@ export class ChartComponent implements OnInit {
 
   ngOnInit() {
 
-    this._router.params
-      .subscribe(params => {
-        this.tag1 = params['tag1']
-        this.tag2 = params['tag2']
+    const params = this._router.snapshot.params
+    this.tag1 = params['tag1']
+    this.tag2 = params['tag2']
 
-        this._store.dispatch({
-          type: SET_TAGS,
-          payload: [ this.tag1, this.tag2 ]
-        })
-      })
+    this._store.dispatch({
+      type: SET_TAGS,
+      payload: [ this.tag1, this.tag2 ]
+    })
 
     this._title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
 

@@ -6,7 +6,6 @@ import { TagsData } from './common/tags-data.service.ts'
 import { TagSelect } from './tags/tag-select.component'
 import { BlankComponent } from './blank.component'
 import { ChartComponent } from './chart/chart.component'
-import 'rxjs/add/operator/filter'
 
 import './styles/app.scss'
 
@@ -36,7 +35,7 @@ import './styles/app.scss'
         </div>
       </div>
       <div class="text-xs-center m-b-2">
-        <button [disabled]="tags?.length < 2" (click)="redirect()"
+        <button [disabled]="isDisabled()" (click)="redirect()"
                 class="hidden btn btn-secondary btn-lg btn-xs-block">Compare!
         </button>
       </div>
@@ -56,7 +55,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this._store.select<ITag[]>('tags')
-      .filter(tags => tags.length === 2)
       .subscribe(tags => this.tags = tags)
   }
 
@@ -72,5 +70,9 @@ export class AppComponent implements OnInit {
         name
       }
     })
+  }
+
+  isDisabled() {
+    return this.tags.filter(Boolean).length < 2
   }
 }

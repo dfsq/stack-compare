@@ -1,4 +1,6 @@
 import { Component } from '@angular/core'
+import { Store } from '@ngrx/store'
+import { UNSET_TAGS } from './reducers/tags'
 
 @Component({
   template: `
@@ -6,4 +8,9 @@ import { Component } from '@angular/core'
   `
 })
 export class BlankComponent {
+  constructor(private _store: Store<any>) {
+    this._store.dispatch({
+      type: UNSET_TAGS
+    })
+  }
 }
