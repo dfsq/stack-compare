@@ -9,7 +9,7 @@ import { Storage } from '../common/storage'
 export class TagsData {
 
   values: Array<string> = []
-  apiBase = 'http://api.stackexchange.com/2.2'
+  apiBase = '//api.stackexchange.com/2.2'
   //apiBase = '/data.json?'
 
   constructor(private _http: Http, private _storage: Storage) {}
