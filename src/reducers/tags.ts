@@ -7,7 +7,6 @@ export const UNSET_TAGS = 'UNSET_TAGS'
 
 export interface ITag {
   name?: String
-  data?: Object
 }
 
 export interface ITagsData {
