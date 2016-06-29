@@ -25,13 +25,17 @@ import './styles/app.scss'
       </header>
       <div class="row row-tags m-b-2">
         <div class="col-xs-12 col-sm-5">
-          <tag-select (onSelect)="select(0, $event.value)" [value]="tags[0]?.name || ''" placeholder="Tag #1"></tag-select>
+          <tag-select (onSelect)="select(0, $event.value)"
+                      [value]="tags[0]?.name || ''"
+                      placeholder="First tag, e.g. angularjs"></tag-select>
         </div>
         <div class="col-xs-12 col-sm-2 text-xs-center">
           <label>VS</label>
         </div>
         <div class="col-xs-12 col-sm-5">
-          <tag-select (onSelect)="select(1, $event.value)" [value]="tags[1]?.name || ''" placeholder="Tag #2"></tag-select>
+          <tag-select (onSelect)="select(1, $event.value)"
+                      [value]="tags[1]?.name || ''"
+                      placeholder="Second tag, e.g. reactjs"></tag-select>
         </div>
       </div>
       <div class="text-xs-center m-b-2">
@@ -59,6 +63,7 @@ export class AppComponent implements OnInit {
   }
 
   redirect() {
+    console.log('redirect', this.tags)
     this._router.navigate(['/', this.tags[0].name, this.tags[1].name])
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { Title } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { Store } from '@ngrx/store'
@@ -62,7 +62,7 @@ import 'rxjs/add/operator/finally'
   providers: [ Title ],
   directives: [ ChartData ]
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent {
 
   loading: boolean = true
   tag1: string
@@ -75,27 +75,24 @@ export class ChartComponent implements OnInit {
     private _title: Title,
     private _router: ActivatedRoute,
     private _store: Store<any>
-  ) {}
+  ) {
+    this._store.select('data').subscribe(data => this.data = data)
+    this._router.params.subscribe(({tag1, tag2}) => {
+      this.tag1 = tag1
+      this.tag2 = tag2
+      this.renderData(tag1, tag2)
+    })
+  }
 
-  ngOnInit() {
-
-    const params = this._router.snapshot.params
-    this.tag1 = params['tag1']
-    this.tag2 = params['tag2']
+  renderData(tag1, tag2) {
+    this._title.setTitle(`${tag1} vs ${tag2} | StackCompare`)
 
     this._store.dispatch({
       type: SET_TAGS,
-      payload: [ this.tag1, this.tag2 ]
+      payload: [ tag1, tag2 ]
     })
 
-    this._title.setTitle(`${this.tag1} vs ${this.tag2} | StackCompare`)
-
-    this._store.select('data')
-      .subscribe(data => {
-        this.data = data
-      })
-
-    this._tagsData.loadStats(this.tag1, this.tag2)
+    this._tagsData.loadStats(tag1, tag2)
       .finally(() => this.loading = false)
       .subscribe(
         data => this._store.dispatch({
