@@ -1,8 +1,10 @@
-import { RouterConfig } from '@angular/router'
+import { Routes, RouterModule } from '@angular/router'
 import { ChartComponent } from './chart/chart.component'
 import { BlankComponent } from './blank.component'
 
-export const appRoutes: RouterConfig = [
+const routes: Routes = [
   { path: '', component: BlankComponent },
-  { path: '/:tag1/:tag2', component: ChartComponent }
+  { path: ':tag1/:tag2', component: ChartComponent }
 ]
+
+export const AppRoutes = RouterModule.forRoot(routes)

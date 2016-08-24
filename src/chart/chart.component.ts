@@ -47,13 +47,13 @@ import 'rxjs/add/operator/finally'
           </div>
           <div class="m-b-1">
             <h6>Answered</h6>
-            <div><strong>{{ tag1 }}</strong>: {{ data.answered[tag1] }}</div>
-            <div><strong>{{ tag2 }}</strong>: {{ data.answered[tag2] }}</div>
+            <div><strong>{{ tag1 }}</strong>: {{ data.answered[tag1] | number }}</div>
+            <div><strong>{{ tag2 }}</strong>: {{ data.answered[tag2] | number }}</div>
           </div>
           <div>
             <h6>Unanswered</h6>
-            <div><strong>{{ tag1 }}</strong>: {{ data.unanswered[tag1] }}</div>
-            <div><strong>{{ tag2 }}</strong>: {{ data.unanswered[tag2] }}</div>
+            <div><strong>{{ tag1 }}</strong>: {{ data.unanswered[tag1] | number }}</div>
+            <div><strong>{{ tag2 }}</strong>: {{ data.unanswered[tag2] | number }}</div>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@ export class ChartComponent {
     private _store: Store<any>
   ) {
     this._store.select('data').subscribe(data => this.data = data)
-    this._router.params.subscribe(({tag1, tag2}) => {
+    this._router.params.subscribe(({ tag1, tag2 }) => {
       this.tag1 = tag1
       this.tag2 = tag2
       this.renderData(tag1, tag2)

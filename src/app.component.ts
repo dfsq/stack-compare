@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { Router, ROUTER_DIRECTIVES } from '@angular/router'
+import { Router } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { ITag, SET_TAGS } from './reducers/tags'
 import { TagsData } from './common/tags-data.service.ts'
-import { TagSelect } from './tags/tag-select.component'
 import { BlankComponent } from './blank.component'
 import { ChartComponent } from './chart/chart.component'
 
@@ -40,13 +39,12 @@ import './styles/app.scss'
       </div>
       <div class="text-xs-center m-b-2">
         <button [disabled]="isDisabled()" (click)="redirect()"
-                class="hidden btn btn-secondary btn-lg btn-xs-block">Compare!
+                class="btn btn-secondary btn-lg btn-xs-block">Compare!
         </button>
       </div>
       <router-outlet></router-outlet>
     </div>
-  `,
-  directives: [ TagSelect, ROUTER_DIRECTIVES ]
+  `
 })
 export class AppComponent implements OnInit {
 
@@ -63,7 +61,6 @@ export class AppComponent implements OnInit {
   }
 
   redirect() {
-    console.log('redirect', this.tags)
     this._router.navigate(['/', this.tags[0].name, this.tags[1].name])
   }
 
